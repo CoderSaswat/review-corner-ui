@@ -1,0 +1,35 @@
+.view-moderators{
+    /* background-color: rgb(167, 81, 81); */
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+.view-moderators-table{
+width: 80%;
+}
+table{
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin-top: 50px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    font-family: arial, sans-serif;
+}
+table td{
+    word-wrap: break-word;
+    text-align: center;
+    padding: 5px;
+}
+table tr{
+    height: 45px;
+}
+table td,th{
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.moderator-photo{
+    width: 4vw;
+    margin-left: 8px;
+}

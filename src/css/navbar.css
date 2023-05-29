@@ -1,0 +1,34 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.navbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: black;
+    color: white;
+    height: 50px;
+    padding-inline: 20px;
+}
+.navbar{
+    font-size: 20px;
+}
+.login-signup-button{
+    width: 60px;
+    height: 30px;
+}
+.login-signup{
+    display: flex;
+    gap: 5px;
+}
+.login-signup-button:hover{
+    cursor: pointer;    
+}
+.profile{
+    font-size: 13px;
+    margin: auto;
+}
+.moderator-button{
+    width: 120px;
+}

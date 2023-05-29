@@ -1,0 +1,15 @@
+.view-comments{
+ margin-left: 18px;
+}
+
+.view-comments-box{
+    /* display: flex; */
+    word-wrap: break-word;
+    margin-top: 10px;
+}
+.test-area{
+    margin-top: 10px;
+}
+.hr{
+    opacity: 0.5;;
+  }
