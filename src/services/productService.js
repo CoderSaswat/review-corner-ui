@@ -72,3 +72,43 @@ export const addAnswer = async (productId,questionId,data) =>{
         return await Promise.reject(error);
     }
 }
+
+export const getProductsByModerator = async () =>{
+    try {
+        const response=await axios.get(`${API_URL}/products/all-products-moderator`);
+        return await Promise.resolve(response.data);
+    } catch (error) {
+        return await Promise.reject(error);
+    }
+}
+
+export const getOneProductByModerator = async (productId) =>{
+    try {
+        const response=await axios.get(`${API_URL}/products/${productId}/moderator`);
+        return await Promise.resolve(response.data);
+    } catch (error) {
+        return await Promise.reject(error);
+    }
+}
+
+export const approveOrRejectReviewByModerator = async (productId,reviewId,status) =>{
+    try {
+        const response=await axios.patch(`${API_URL}/products/${productId}/review/${reviewId}?approvalStatus=${status}`);
+        return await Promise.resolve(response.data);
+    } catch (error) {
+        // return await Promise.reject(error);
+    }
+}
+
+export const approveOrRejectQuestionByModerator = async (productId,questionId,status,data) =>{
+    try {
+        if(data?.answer==null){
+            const response=await axios.patch(`${API_URL}/products/${productId}/question/${questionId}?approvalStatus=${status}`);
+            return await Promise.resolve(response.data);
+        }else{
+            return await axios.patch(`${API_URL}/products/${productId}/question/${questionId}?approvalStatus=${status}`,data);
+        }
+    } catch (error) {
+        return await Promise.reject(error);
+    }
+}

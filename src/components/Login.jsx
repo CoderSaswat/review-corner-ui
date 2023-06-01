@@ -24,6 +24,8 @@ const Login = ({currentUser}) => {
         if(res?.role==="MODERATOR" && res?.isFirstLogin === true){
           // alert("moderator")
           navigator("/change-password");
+        }else{
+          navigator("/moderator-products");
         }
         if(res?.role==="END_USER"){
           // alert("moderator")

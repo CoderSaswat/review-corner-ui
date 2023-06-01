@@ -15,6 +15,8 @@ import ChangePassword from './components/ChangePassword'
 import Products from './components/Products'
 import Product from './components/Product'
 import Homescreen from './components/Homescreen'
+import ModeratorProducts from './components/ModeratorProducts'
+import ModeratorProduct from './components/ModeratorProduct'
 
 const App = () => {
   const [isLoader, setIsLoader] = useState(false);
@@ -86,7 +88,9 @@ const App = () => {
         <Route path='/change-password'element={<ChangePassword/>}/>
         <Route path='/all-products'element={<Products/>}/>
         <Route path='/one-product/:id'element={<Product/>}/>
+        <Route path='/one-product-moderator/:id'element={<ModeratorProduct/>}/>
         <Route path='/'element={<Homescreen/>}/>
+        <Route path='/moderator-products'element={<ModeratorProducts/>}/>
       </Routes>
 
       {/* <OtpVarify/> */}

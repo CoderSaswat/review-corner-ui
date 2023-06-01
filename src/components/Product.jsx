@@ -61,6 +61,7 @@ const Product = () => {
   const handleAddReviewClick = () => {
     addReview(id, review)
       .then((res) => {
+        refreshProduct();
         console.log(res);
         // window.location.reload();
         toast.success("your review successfully goes for appoval");
