@@ -33,7 +33,7 @@ const Login = ({currentUser}) => {
         }
         toast.success("logged in successful");
         if(res.role === "ADMIN"){
-          navigator("/view-moderators");
+          navigator("/admin-products");
         }
         // navigator("/add-todo");
       }).catch((err)=>{

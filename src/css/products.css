@@ -22,19 +22,39 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    flex-wrap: wrap
+    flex-wrap: wrap;
+    /* background-color: burlywood; */
 }
 .product-item{
-    gap: 5px;
+    gap: 13px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    max-width: 350px;
+    justify-content: center;
+    /* max-width: 350px; */
+    border: 2px solid black;
+    /* margin-bottom: 20px; */
+    /* width: 6050px; Adjust the width to the desired value */
+    /* height: 50vh; /*Adjust the height to the desired value */
+    flex-basis: calc(30% - 10px);
+    margin: 5px;
+    padding: 10px;
+    box-shadow: 5px 10px 18px #888888;
+    /* flex: 100px 0px 200px; */
+    /* flex-basis: 1px; */
+	/* flex-grow: 0; */
+	/* flex-shrink: 0; */
+    /* background-color: aqua; */
+    height: 160px;
 }
 .product-item:hover{
     cursor: pointer;
     background-color: rgb(212, 209, 206);
 }
-.product-property{
+
+.product-properties-font{
+    font-size: 2px;
+}
+
+.all-product-property{
     font-size: 15px;
 }

@@ -42,7 +42,6 @@ const Products = () => {
     <>
       <div className="categories">
         {categories?.map((item, index) => {
-
           return (
             <>
               <div className="categories-item">
@@ -58,25 +57,39 @@ const Products = () => {
         })}
       </div>
       <div className="products">
-        {
-            products?.map((product,index)=>{
-                return(
-                    <>
-                        <div className="product-item" onClick={()=>{
-                            navigator(`/one-product/${product?.id}`)
-                        }}>
-                            <img src={product?.productPhotoUrl} alt="" style={{"width":"10vw"}}/>
-                            <div className="product-property">
-                                <p style={{fontSize:"20px",marginBottom:"5px"}}>{product?.name}</p>
-                                <p><strong>Average Rating:</strong> {product?.averageRating}</p>
-                                <p><strong>Starts from: Rs.</strong> {product?.minimumPrice}/-</p>
-                                <p><strong>Description: </strong>{product?.description.substring(0, 50) + "..."}</p>
-                            </div>
-                        </div>
-                    </>
-                )
-            })
-        }
+        {products?.map((product, index) => {
+          return (
+            <>
+              <div
+                className="product-item"
+                onClick={() => {
+                  navigator(`/one-product/${product?.id}`);
+                }}
+              >
+                <img
+                  src={product?.productPhotoUrl}
+                  alt=""
+                  style={{ width: "10vw" }}
+                />
+                <div className="all-product-property">
+                  <p style={{ fontSize: "20px", marginBottom: "5px" }}>
+                    {product?.name}
+                  </p>
+                  <p>
+                    <strong>Average Rating:</strong> {product?.averageRating}
+                  </p>
+                  <p className="product-properties-font">
+                    <strong>Starts from: Rs.</strong> {product?.minimumPrice}/-
+                  </p>
+                  <p>
+                    <strong>Description: </strong>
+                    {product?.description.substring(0, 50) + "..."}
+                  </p>
+                </div>
+              </div>
+            </>
+          );
+        })}
       </div>
     </>
   );

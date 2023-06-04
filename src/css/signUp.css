@@ -4,7 +4,8 @@
     justify-content: center;
     /* background-color: aqua; */
     width: 100vw;
-    height: 90vh;
+    /* height: 100vh; */
+    margin-top: 20px;
 }
 .sign-up-item{
     margin-top: 10px;
@@ -31,4 +32,32 @@
 
 .change-password-buttom{
     width: 120px;
+}
+.add-price{
+    width: 120px;
+    height: 20px;
+    margin-left: 215px;
+    border: 3px solid green;
+    border-radius: 3px;
+    background-color: green;
+    color: white;
+}
+
+.add-product{
+    width: 130px;
+    margin-left: 90px;
+    border: 3px solid blue;
+    border-radius: 3px;
+    background-color: blue;
+    color: white;
+}
+
+.remove-price{
+    width: 80px;
+    height: 20px;
+    margin-left: 243px;
+    border: 3px solid rgb(237, 19, 19);
+    border-radius: 3px;
+    background-color: rgb(231, 32, 6);
+    color: white;
 }

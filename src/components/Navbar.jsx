@@ -18,6 +18,12 @@ export default function Navbar({ user }) {
               <Link to={"/add-moderators"}>
                 <button className="login-signup-button moderator-button">Add Moderators</button>
               </Link>
+              <Link to={"/admin-products"}>
+                <button className="login-signup-button moderator-button">View Products</button>
+              </Link>
+              <Link to={"/add-product"}>
+                <button className="login-signup-button moderator-button">Add Product</button>
+              </Link>
             </div>
           </>
         ) : (

@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   addQuestion,
   addReview,
   getOneProduct,
+  getOneProductByAdmin,
 } from "../services/productService";
 import "../css/product.css";
 import ViewComments from "./ViewComments";
 import { toast } from "react-toastify";
 import ViewAnswers from "./ViewAnswers";
 
-const Product = () => {
+const AdminProduct = () => {
   const [product, setProduct] = useState({});
   const [isViewComment, setIsViewComment] = useState({});
+
+  const navigator = useNavigate();
+
   const handleReload = () => {
     // setReloadFlag(!reloadFlag);
     refreshProduct();
@@ -25,7 +29,7 @@ const Product = () => {
   }, []);
 
   const refreshProduct = () => {
-    getOneProduct(id)
+    getOneProductByAdmin(id)
       .then((res) => {
         setProduct(res);
         // console.log(res)
@@ -118,6 +122,14 @@ const Product = () => {
           </div>
         </div>
       </div>
+      <button
+        className="edit-product edit-product-admin-product-page"
+        onClick={(e) => {
+          navigator(`/edit-product-admin/${product?.id}`);
+        }}
+      >
+        Edit Product
+      </button>
       <h2 className="product-heading">Prices from different Companies</h2>
       <div className="prices">
         {product?.prices?.map((price, index) => {
@@ -152,32 +164,21 @@ const Product = () => {
         <div className="review-question-item">
           <h2 className="product-heading">Reviews & Ratings</h2>
           <div className="reviews">
-            <div className="stars">
-              {[1, 2, 3, 4, 5].map((value,index) => (
-                <span
-                  key={index}
-                  className={value <= review?.rating ? "star filled" : "star"}
-                  onClick={() => handleRatingChange(value)}
-                >
-                  &#9733;
-                </span>
-              ))}
-            </div>
-            <textarea
-              className="test-area"
-              name="comment"
-              id=""
-              cols="30"
-              rows="2"
-              placeholder="add your review"
-              value={review?.comment}
-              onChange={handleChangeAddReview}
-            ></textarea>
-            <br />
-            <button className="product-button" onClick={handleAddReviewClick}>
-              add review
-            </button>
             {product?.reviews?.map((review, index) => {
+              let style = null;
+              if (review?.approvalStatus === "APPROVED") {
+                style = {
+                  color: "green",
+                };
+              } else if (review?.approvalStatus === "REJECTED") {
+                style = {
+                  color: "RED",
+                };
+              } else {
+                style = {
+                  color: "orange",
+                };
+              }
               return (
                 <>
                   <div className="review-item">
@@ -189,6 +190,10 @@ const Product = () => {
                     </p>
                     <p>
                       <strong>Username:</strong> {review.username}
+                    </p>
+                    <p>
+                      <strong>Status:</strong>{" "}
+                      <span style={style}>{review.approvalStatus}</span>
                     </p>
                     <button
                       className={
@@ -222,21 +227,21 @@ const Product = () => {
         <div className="review-question-item">
           <h2 className="product-heading qna">Questions & Answers</h2>
           <div className="reviews">
-            <textarea
-              className="test-area"
-              name="question"
-              id=""
-              cols="30"
-              rows="2"
-              placeholder="ask your question"
-              value={question?.question}
-              onChange={handleChangeAddQuestion}
-            ></textarea>
-            <br />
-            <button className="product-button" onClick={handleAddQuestionClick}>
-              ask question
-            </button>
             {product?.questions?.map((question, index) => {
+              let style = null;
+              if (question?.approvalStatus === "APPROVED") {
+                style = {
+                  color: "green",
+                };
+              } else if (question?.approvalStatus === "REJECTED") {
+                style = {
+                  color: "RED",
+                };
+              } else {
+                style = {
+                  color: "orange",
+                };
+              }
               return (
                 <>
                   <div className="review-item">
@@ -245,6 +250,10 @@ const Product = () => {
                     </p>
                     <p>
                       <strong>Username:</strong> {question?.username}
+                    </p>
+                    <p>
+                      <strong>Status:</strong>{" "}
+                      <span style={style}>{question.approvalStatus}</span>
                     </p>
                     <button
                       className={
@@ -280,4 +289,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default AdminProduct;

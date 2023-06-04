@@ -17,6 +17,10 @@ import Product from './components/Product'
 import Homescreen from './components/Homescreen'
 import ModeratorProducts from './components/ModeratorProducts'
 import ModeratorProduct from './components/ModeratorProduct'
+import AdminProducts from './components/AdminProducts'
+import AdminProduct from './components/AdminProduct'
+import AddProduct from './components/AddProduct'
+import EditProduct from './components/EditProduct'
 
 const App = () => {
   const [isLoader, setIsLoader] = useState(false);
@@ -91,6 +95,10 @@ const App = () => {
         <Route path='/one-product-moderator/:id'element={<ModeratorProduct/>}/>
         <Route path='/'element={<Homescreen/>}/>
         <Route path='/moderator-products'element={<ModeratorProducts/>}/>
+        <Route path='/admin-products'element={<AdminProducts/>}/>
+        <Route path='/one-product-admin/:id'element={<AdminProduct/>}/>
+        <Route path='/add-product'element={<AddProduct/>}/>
+        <Route path='/edit-product-admin/:id'element={<EditProduct/>}/>
       </Routes>
 
       {/* <OtpVarify/> */}

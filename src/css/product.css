@@ -2,7 +2,7 @@
     margin-top: 20px;
     display: flex;
     /* align-items: center; */
-    justify-content: space-between;
+    /* justify-content: space-between; */
     gap: 20px;
     padding-inline: 30px;
     
@@ -146,4 +146,21 @@
 
   .btn-hover:hover{
     cursor: pointer;
+  }
+  .edit-product{
+    width: 80px;
+    height: 20px;
+    border: 2px solid blue;
+    color: white;
+    background-color: blue;
+    border-radius: 3px;
+    /* margin-left: 100px; */
+  }
+  .edit-product:hover{
+    color: rgb(159, 232, 159);
+    cursor: pointer;
+  }
+
+  .edit-product-admin-product-page{
+    margin-left: 28px;
   }
