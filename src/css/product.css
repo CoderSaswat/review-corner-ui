@@ -99,20 +99,20 @@
   }
   .product-button:hover{
     cursor: pointer;
-    background-color: rgb(17, 168, 17);
+    /* background-color: rgb(17, 168, 17); */
   }
 
   .show-comments-button{
     background-color: blue;
   }
   .show-comments-button:hover{
-    background-color: rgb(83, 83, 250);
+    /* background-color: rgb(83, 83, 250); */
   }
   .close-comments-button{
     background-color: rgb(192, 125, 31);
   }
   .close-comments-button:hover{
-    background-color: rgb(235, 188, 122);
+    /* background-color: rgb(235, 188, 122); */
   }
   .hr{
     opacity: 0.5;;
@@ -164,3 +164,74 @@
   .edit-product-admin-product-page{
     margin-left: 28px;
   }
+
+  .delete-product{
+    width: 110px;
+    height: 20px;
+    border: 2px solid red;
+    color: white;
+    background-color: red;
+    border-radius: 3px;
+    margin-left: 10px;
+  }
+  .delete-product:hover{
+    color: rgb(159, 232, 159);
+    cursor: pointer;
+  }
+
+  .delete-confirm{
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* background-color: aqua; */
+    width: 500px;
+    height: 100px; 
+  }
+  .confirm-yes{
+    
+    width: 80px;
+    height: 20px;
+    border: 2px solid green;
+    color: white;
+    background-color: green;
+    border-radius: 3px;
+  }
+
+  .confirm-no{
+    width: 100px;
+    height: 20px;
+    border: 2px solid red;
+    color: white;
+    background-color: red;
+    border-radius: 3px;
+    margin-left: 10px;
+  }
+
+  .confirm-no:hover{
+    cursor: pointer;
+  }
+  .confirm-yes:hover{
+    cursor: pointer;
+  }
+  .show-c{
+    background-color: aqua;
+    border: 2px solid aqua;
+    color: black;
+}
+.close-c{
+  background-color: orange;
+  border: 2px solid orange;
+  color: black;
+}

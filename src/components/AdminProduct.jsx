@@ -3,6 +3,9 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   addQuestion,
   addReview,
+  deleteProduct,
+  deleteQuestion,
+  deleteReview,
   getOneProduct,
   getOneProductByAdmin,
 } from "../services/productService";
@@ -14,6 +17,13 @@ import ViewAnswers from "./ViewAnswers";
 const AdminProduct = () => {
   const [product, setProduct] = useState({});
   const [isViewComment, setIsViewComment] = useState({});
+
+  const [isDeleteProduct, setIsDeleteProduct] = useState(false);
+  const [deleteProductId, setDeleteProductId] = useState("");
+  const [isDeleteReview, setIsDeleteReview] = useState(false);
+  const [deleteReviewId, setDeleteReviewId] = useState("");
+  const [isDeleteQuestion, setIsDeleteQuestion] = useState(false);
+  const [deleteQuestionId, setDeleteQuestionId] = useState("");
 
   const navigator = useNavigate();
 
@@ -94,8 +104,68 @@ const AdminProduct = () => {
       });
     console.log(question);
   };
+
+  const handleConfirmDelete = () => {
+    if (isDeleteProduct) {
+      deleteProduct(deleteProductId)
+        .then((res) => {
+          setIsDeleteProduct(false);
+          setDeleteProductId("");
+          navigator("/admin-products");
+          toast.success("product successfully deleted");
+        })
+        .catch((err) => {
+          toast.error("failed to delete product");
+        });
+    } else if (isDeleteReview) {
+      deleteReview(deleteProductId,deleteReviewId).then((res)=>{
+        setDeleteProductId('');
+        setDeleteReviewId('');
+        setIsDeleteReview(false);
+        refreshProduct();
+        toast.success("review deleted")
+      }).catch((err)=>{
+        toast.error("failed to delete review")
+      })
+    }
+    else if(isDeleteQuestion){
+      deleteQuestion(deleteProductId,deleteQuestionId).then((res)=>{
+        setDeleteProductId('');
+        setDeleteQuestionId('');
+        setIsDeleteQuestion(false);
+        refreshProduct();
+        toast.success("question deleted")
+      }).catch((err)=>{
+        toast.error("failed to delete question")
+      })
+    }
+  };
   return (
     <>
+      {isDeleteProduct || isDeleteReview || isDeleteQuestion ? (
+        <>
+          <div className="delete-confirm">
+            <h3>Are you sure you want to delete</h3>
+            <div>
+              <button onClick={handleConfirmDelete} className="confirm-yes">
+                Yes
+              </button>
+              <button
+                onClick={() => {
+                  setIsDeleteProduct(false);
+                  setIsDeleteReview(false);
+                  setIsDeleteQuestion(false);
+                }}
+                className="confirm-no"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
       <div className="product">
         <div>
           <img
@@ -129,6 +199,17 @@ const AdminProduct = () => {
         }}
       >
         Edit Product
+      </button>
+      <button
+        className=" delete-product"
+        onClick={(e) => {
+          e.stopPropagation();
+          // navigator(`/edit-product-admin/${product?.id}`);
+          setDeleteProductId(product?.id);
+          setIsDeleteProduct(true);
+        }}
+      >
+        Delete Product
       </button>
       <h2 className="product-heading">Prices from different Companies</h2>
       <div className="prices">
@@ -209,6 +290,18 @@ const AdminProduct = () => {
                         ? "close comments"
                         : "show comments"}
                     </button>
+                    <button
+                      className=" delete-product"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // navigator(`/edit-product-admin/${product?.id}`);
+                        setDeleteProductId(product?.id);
+                        setDeleteReviewId(review?.id);
+                        setIsDeleteReview(true);
+                      }}
+                    >
+                      Delete Review
+                    </button>
                     {isViewComment[review.id] && (
                       <ViewComments
                         replies={review?.replies}
@@ -268,6 +361,18 @@ const AdminProduct = () => {
                       {isViewComment[question.id]
                         ? "close answers"
                         : "show answers"}
+                    </button>
+                    <button
+                      className="delete-product"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // navigator(`/edit-product-admin/${product?.id}`);
+                        setDeleteProductId(product?.id);
+                        setDeleteQuestionId(question?.id);
+                        setIsDeleteQuestion(true);
+                      }}
+                    >
+                      Delete Question
                     </button>
                     {isViewComment[question.id] && (
                       <ViewAnswers

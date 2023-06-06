@@ -40,49 +40,57 @@ const ModeratorProduct = () => {
   //approve with answer
   const [data, setData] = useState({});
 
-
   const handleChangeWithAnswer = (e) => {
     // alert(data?.answer)
     setData({ ...data, [e.target.name]: e.target.value });
-
   };
 
-
-
-  const handleApproveOrRjejectReview =(reviewId,status)=>{
-    console.log(id)
-    approveOrRejectReviewByModerator(id,reviewId,status).then((res)=>{
+  const handleApproveOrRjejectReview = (reviewId, status) => {
+    console.log(id);
+    approveOrRejectReviewByModerator(id, reviewId, status)
+      .then((res) => {
         refreshProduct();
         console.log(res);
-        if(status === "APPROVED"){
-            toast.success("review succesfully approved")
+        if (status === "APPROVED") {
+          toast.success("review succesfully approved");
         }
-        if(status==="REJECTED"){
-            toast.success("review rejected")
+        if (status === "REJECTED") {
+          toast.success("review rejected");
         }
-    }).catch((err)=>{
+      })
+      .catch((err) => {
         console.log(err);
         toast.error(err.response.data.message);
-    })
-  }
+      });
+  };
 
-
-  const handleApproveOrRjejectQuestion =(questionId,status)=>{
-    console.log(data)
-    approveOrRejectQuestionByModerator(id,questionId,status,data).then((res)=>{
-        refreshProduct();
-        console.log(res);
-        if(status === "APPROVED"){
-            toast.success("question succesfully approved")
-        }
-        if(status==="REJECTED"){
-            toast.success("question rejected")
-        }
-    }).catch((err)=>{
-        console.log(err);
-        toast.error(err.response.data.message);
-    })
-  }
+  const handleApproveOrRjejectQuestion = (questionId, status) => {
+    console.log(data);
+    if (status === "APPROVED" && !data?.answer) {
+      toast.error("please provide answer")
+      // throw new Error("This is a custom error message");
+    } else {
+      console.log(data);
+      approveOrRejectQuestionByModerator(id, questionId, status, data)
+        .then((res) => {
+          refreshProduct();
+          setData({
+            "answer":"demo",
+          })
+          console.log(res);
+          if (status === "APPROVED") {
+            toast.success("question succesfully approved");
+          }
+          if (status === "REJECTED") {
+            toast.success("question rejected");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(err.response.data.message);
+        });
+    }
+  };
   return (
     <>
       <div className="product">
@@ -133,8 +141,22 @@ const ModeratorProduct = () => {
                       <strong>Status:</strong> {review.approvalStatus}
                     </p>
                     <div className="approve-reject-button">
-                      <button className="approve btn-hover" onClick={()=>handleApproveOrRjejectReview(review?.id,"APPROVED")}>approve</button>
-                      <button className="reject btn-hover" onClick={()=>handleApproveOrRjejectReview(review?.id,"REJECTED")}>reject</button>
+                      <button
+                        className="approve btn-hover"
+                        onClick={() =>
+                          handleApproveOrRjejectReview(review?.id, "APPROVED")
+                        }
+                      >
+                        approve
+                      </button>
+                      <button
+                        className="reject btn-hover"
+                        onClick={() =>
+                          handleApproveOrRjejectReview(review?.id, "REJECTED")
+                        }
+                      >
+                        reject
+                      </button>
                     </div>
                   </div>
                   <hr style={{ marginTop: "25px" }} className="hr" />
@@ -160,11 +182,39 @@ const ModeratorProduct = () => {
                       <strong>Status:</strong> {question?.approvalStatus}
                     </p>
                     <div className="approve-reject-button">
-                    <textarea name="answer" id="" cols="30" rows="2" placeholder="enter the answer" value={data?.question?.id} onChange={handleChangeWithAnswer}></textarea>
-                    <br />
-                      <button className="approve btn-hover" onClick={()=>handleApproveOrRjejectQuestion(question?.id,"APPROVED")}>approve</button>
-                      <button className="reject btn-hover" onClick={()=>handleApproveOrRjejectQuestion(question?.id,"REJECTED")}>reject</button>
-                      <button className="approve approve-with-answer btn-hover" onClick={()=>handleApproveOrRjejectQuestion(question?.id,"APPROVED")}>approve with answer</button>
+                      <textarea
+                        name="answer"
+                        id=""
+                        cols="30"
+                        rows="2"
+                        placeholder="enter the answer(required)"
+                        value={data?.question?.answer}
+                        onChange={handleChangeWithAnswer}
+                      ></textarea>
+                      <br />
+                      <button
+                        className="approve btn-hover"
+                        onClick={() =>
+                          handleApproveOrRjejectQuestion(
+                            question?.id,
+                            "APPROVED"
+                          )
+                        }
+                      >
+                        approve
+                      </button>
+                      <button
+                        className="reject btn-hover"
+                        onClick={() =>
+                          handleApproveOrRjejectQuestion(
+                            question?.id,
+                            "REJECTED"
+                          )
+                        }
+                      >
+                        reject
+                      </button>
+                      {/* <button className="approve approve-with-answer btn-hover" onClick={()=>handleApproveOrRjejectQuestion(question?.id,"APPROVED")}>approve with answer</button> */}
                     </div>
                   </div>
                   <hr style={{ marginTop: "25px" }} className="hr" />

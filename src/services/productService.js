@@ -182,9 +182,46 @@ export const addProductByAdmin = async (data) => {
     return await Promise.reject(error);
   }
 };
+
 export const editProductByAdmin = async (data) => {
   try {
     const response = await axios.put(`${API_URL}/products/edit-product/admin`,data);
+    return await Promise.resolve(response.data);
+  } catch (error) {
+    return await Promise.reject(error);
+  }
+};
+
+export const deleteProduct = async (productId) => {
+  try {
+    const response = await axios.delete(`${API_URL}/products/${productId}`);
+    return await Promise.resolve(response.data);
+  } catch (error) {
+    return await Promise.reject(error);
+  }
+};
+
+export const deleteReview = async (productId,reviewId) => {
+  try {
+    const response = await axios.delete(`${API_URL}/products/${productId}/review/${reviewId}`);
+    return await Promise.resolve(response.data);
+  } catch (error) {
+    return await Promise.reject(error);
+  }
+};
+
+export const deleteQuestion = async (productId,questionId) => {
+  try {
+    const response = await axios.delete(`${API_URL}/products/${productId}/question/${questionId}`);
+    return await Promise.resolve(response.data);
+  } catch (error) {
+    return await Promise.reject(error);
+  }
+};
+
+export const updateReview = async (productId,reviewId,data) => {
+  try {
+    const response = await axios.put(`${API_URL}/products/${productId}/review/${reviewId}`,data);
     return await Promise.resolve(response.data);
   } catch (error) {
     return await Promise.reject(error);

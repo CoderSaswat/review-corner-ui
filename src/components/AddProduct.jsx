@@ -23,6 +23,7 @@ const AddProduct = () => {
     prices: [],
   });
   const [categories, setCategories] = useState([]);
+  
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -70,8 +71,10 @@ const AddProduct = () => {
     const newPrices = [...prices];
     newPrices[index] = { ...newPrices[index], [name]: value };
     setPrices(newPrices);
+  
     setData({ ...data, ["prices"]: newPrices });
   };
+  console.log(prices);
 
   const handleRemovePrice = (index) => {
     // alert(index);

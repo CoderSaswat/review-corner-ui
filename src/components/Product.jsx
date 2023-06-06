@@ -9,10 +9,14 @@ import "../css/product.css";
 import ViewComments from "./ViewComments";
 import { toast } from "react-toastify";
 import ViewAnswers from "./ViewAnswers";
+import { getUsersMe } from "../services/userService";
 
 const Product = () => {
   const [product, setProduct] = useState({});
+  const [currentUser, setCurrentUser] = useState("");
   const [isViewComment, setIsViewComment] = useState({});
+  const [isEditReview, setIsEditReview] = useState(false);
+
   const handleReload = () => {
     // setReloadFlag(!reloadFlag);
     refreshProduct();
@@ -22,6 +26,7 @@ const Product = () => {
   // console.log(id);
   useEffect(() => {
     refreshProduct();
+    getCurrentUser();
   }, []);
 
   const refreshProduct = () => {
@@ -61,9 +66,13 @@ const Product = () => {
   const handleAddReviewClick = () => {
     addReview(id, review)
       .then((res) => {
-        refreshProduct();
         console.log(res);
-        // window.location.reload();
+        setReview({
+          comment: "",
+        });
+
+        // setReview({});
+        refreshProduct();
         toast.success("your review successfully goes for appoval");
       })
       .catch((err) => {
@@ -79,19 +88,54 @@ const Product = () => {
   };
 
   const handleAddQuestionClick = () => {
+    console.log("hy");
     addQuestion(id, question)
       .then((res) => {
-        console.log(res);
+        refreshProduct();
+        setQuestion({
+          question: "",
+        });
+        // console.log(res);
         // window.location.reload();
-        toast.success("your question successfully goes for appoval");
+        toast.success("your question successfully goes for approval");
       })
       .catch((err) => {
         toast.error(err.response.data.message);
       });
     console.log(question);
   };
+
+  const getCurrentUser = () => {
+    getUsersMe()
+      .then((res) => {
+        setCurrentUser(res);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
+  };
   return (
     <>
+      {isEditReview ? (
+        <>
+          <div className="delete-confirm">
+            <input type="text" name="" />
+            <div>
+              <button className="confirm-yes">Yes</button>
+              <button
+                onClick={() => {
+                  isEditReview(false);
+                }}
+                className="confirm-no"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
       <div className="product">
         <div>
           <img
@@ -153,7 +197,7 @@ const Product = () => {
           <h2 className="product-heading">Reviews & Ratings</h2>
           <div className="reviews">
             <div className="stars">
-              {[1, 2, 3, 4, 5].map((value,index) => (
+              {[1, 2, 3, 4, 5].map((value, index) => (
                 <span
                   key={index}
                   className={value <= review?.rating ? "star filled" : "star"}
@@ -188,13 +232,40 @@ const Product = () => {
                       <strong>Rating:</strong> {review.rating}
                     </p>
                     <p>
-                      <strong>Username:</strong> {review.username}
+                      <strong>Username:</strong>{" "}
+                      {review?.userId === currentUser?.id
+                        ? "'YOU'"
+                        : review?.username}
                     </p>
+                    {review?.userId === currentUser?.id && (
+                      <>
+                        <div className="edit-delete-review">
+                          <button
+                            className="edit-product"
+                            onClick={(e) => {
+                              // e.stopPropagation();
+                              // navigator(`/edit-product-admin/${product?.id}`);
+                            }}
+                          >
+                            Edit Review
+                          </button>
+                          {/* <br /> */}
+                          <button
+                            className=" delete-product"
+                            onClick={(e) => {
+                              isEditReview(true);
+                            }}
+                          >
+                            Delete Review
+                          </button>
+                        </div>
+                      </>
+                    )}
                     <button
                       className={
                         isViewComment[review.id]
-                          ? "product-button close-comments-button"
-                          : "product-button show-comments-button"
+                          ? "product-button close-comments-button close-c"
+                          : "product-button show-comments-button show-c"
                       }
                       onClick={() => {
                         handleViewCloseCommentButton(review.id);
@@ -244,7 +315,10 @@ const Product = () => {
                       <strong>Question:</strong> {question?.question}
                     </p>
                     <p>
-                      <strong>Username:</strong> {question?.username}
+                      <strong>Username:</strong>{" "}
+                      {question?.userId === currentUser?.id
+                        ? "'YOU'"
+                        : question?.username}
                     </p>
                     <button
                       className={

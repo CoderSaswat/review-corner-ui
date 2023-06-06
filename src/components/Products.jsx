@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import "../css/products.css";
 import Product from "./Product";
 import { useNavigate } from "react-router-dom";
+import { getUsersMe } from "../services/userService";
 
 const Products = () => {
   const [categories, setCategories] = useState([]);
@@ -37,6 +38,10 @@ const Products = () => {
         toast.error(err.response.data.message);
       });
   };
+
+
+
+
 
   return (
     <>

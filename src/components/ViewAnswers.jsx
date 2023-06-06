@@ -53,7 +53,7 @@ const ViewAnswers = (props) => {
                 </>
               );
             })}
-            <textarea
+            {/* <textarea
               className="test-area"
               name="answer"
               id=""
@@ -66,7 +66,7 @@ const ViewAnswers = (props) => {
             <br />
             <button className="product-button" onClick={handleAddAnswerClick}>
               add answer
-            </button>
+            </button> */}
           </div>
         }
       </div>
