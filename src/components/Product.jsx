@@ -3,7 +3,9 @@ import { useParams } from "react-router-dom";
 import {
   addQuestion,
   addReview,
+  deleteReview,
   getOneProduct,
+  updateReview,
 } from "../services/productService";
 import "../css/product.css";
 import ViewComments from "./ViewComments";
@@ -16,6 +18,15 @@ const Product = () => {
   const [currentUser, setCurrentUser] = useState("");
   const [isViewComment, setIsViewComment] = useState({});
   const [isEditReview, setIsEditReview] = useState(false);
+  const [isDeleteReview, setIsDeleteReview] = useState(false);
+  const [review, setReview] = useState({});
+  const [question, setQuestion] = useState({});
+  const [deleteReviewId, setDeleteReviewId] = useState("");
+  const [productId, setProductId] = useState("");
+  const [editReviewId, setEditReviewId] = useState("");
+  const [updatedReviewPayload, setUpdatedReviewPayload] = useState({});
+
+  // const [reviewToBeUpdated, setReviewToBeUpdated] = useState({});
 
   const handleReload = () => {
     // setReloadFlag(!reloadFlag);
@@ -27,6 +38,7 @@ const Product = () => {
   useEffect(() => {
     refreshProduct();
     getCurrentUser();
+    // console.log(product)
   }, []);
 
   const refreshProduct = () => {
@@ -51,8 +63,6 @@ const Product = () => {
       // console.log(isViewComment);
     }
   };
-
-  const [review, setReview] = useState({});
 
   const handleRatingChange = (value) => {
     // setRating(value);
@@ -80,8 +90,6 @@ const Product = () => {
       });
     console.log(review);
   };
-
-  const [question, setQuestion] = useState({});
 
   const handleChangeAddQuestion = (e) => {
     setQuestion({ ...question, [e.target.name]: e.target.value });
@@ -114,17 +122,87 @@ const Product = () => {
         toast.error(err.response.data.message);
       });
   };
+
+  const handleDeleteReview = () => {
+    deleteReview(productId, deleteReviewId)
+      .then((res) => {
+        setProductId("");
+        setDeleteReviewId("");
+        setIsDeleteReview(false);
+        refreshProduct();
+        toast.success("review deleted succesfully");
+      })
+      .catch((err) => {
+        toast.error("failed to delete review");
+      });
+  };
+
+  const handleEditRatingChange = (value) => {
+    // setRating(value);
+    setUpdatedReviewPayload({ ...updatedReviewPayload, rating: value });
+  };
+
+  const handleChangeEditReview = (e) => {
+    setUpdatedReviewPayload({
+      ...updatedReviewPayload,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleReviewEditSubmit = () => {
+    updateReview(productId, editReviewId, updatedReviewPayload)
+      .then((res) => {
+        setProductId("");
+        setEditReviewId("");
+        setIsEditReview(false);
+        setUpdatedReviewPayload({});
+        refreshProduct();
+      })
+      .catch((err) => {
+        toast.error("failed to update review");
+      });
+  };
   return (
     <>
+      {/* dialog box for updating review */}
       {isEditReview ? (
         <>
-          <div className="delete-confirm">
-            <input type="text" name="" />
+          <div className="delete-confirm add-additonal-info">
+            <div className="stars">
+              {[1, 2, 3, 4, 5].map((value, index) => (
+                <span
+                  key={index}
+                  className={
+                    value <= updatedReviewPayload?.rating
+                      ? "star filled"
+                      : "star"
+                  }
+                  onClick={() => handleEditRatingChange(value)}
+                >
+                  &#9733;
+                </span>
+              ))}
+            </div>
+            <textarea
+              className="test-area"
+              name="comment"
+              id=""
+              cols="30"
+              rows="2"
+              placeholder="add your review"
+              value={updatedReviewPayload?.comment}
+              onChange={handleChangeEditReview}
+            ></textarea>
             <div>
-              <button className="confirm-yes">Yes</button>
+              <button onClick={handleReviewEditSubmit} className="confirm-yes">
+                Yes
+              </button>
               <button
                 onClick={() => {
-                  isEditReview(false);
+                  setProductId("");
+                  setEditReviewId("");
+                  setIsEditReview(false);
+                  setUpdatedReviewPayload({});
                 }}
                 className="confirm-no"
               >
@@ -136,6 +214,30 @@ const Product = () => {
       ) : (
         <></>
       )}
+      {/* dialog box for delete review confirmation */}
+      {isDeleteReview ? (
+        <>
+          <div className="delete-confirm">
+            <h4>Are you sure you want to delete</h4>
+            <div>
+              <button onClick={handleDeleteReview} className="confirm-yes">
+                Yes
+              </button>
+              <button
+                onClick={() => {
+                  setIsDeleteReview(false);
+                }}
+                className="confirm-no"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
+
       <div className="product">
         <div>
           <img
@@ -160,6 +262,29 @@ const Product = () => {
               {product?.description}
             </p>
           </div>
+        </div>
+      </div>
+      <h2 className="product-heading">Additional Information</h2>
+      <div className="additional-info">
+        <div>
+          {product.additionalInfo &&
+            Object.entries(product.additionalInfo).map(([key, value]) => (
+              <>
+                <div className="p-key">
+                  <strong>{key}</strong>
+                </div>
+              </>
+            ))}
+        </div>
+        <div>
+          {product.additionalInfo &&
+            Object.entries(product.additionalInfo).map(([key, value]) => (
+              <>
+                <div className="p-value">
+                  <span>{value}</span>
+                </div>
+              </>
+            ))}
         </div>
       </div>
       <h2 className="product-heading">Prices from different Companies</h2>
@@ -229,7 +354,21 @@ const Product = () => {
                       <strong>Review:</strong> {review.comment}
                     </p>
                     <p>
-                      <strong>Rating:</strong> {review.rating}
+                      <strong>Rating:</strong>{" "}
+                      {
+                        <div className="star">
+                          {[1, 2, 3, 4, 5].map((value, index) => (
+                            <span
+                              key={index}
+                              className={
+                                value <= review?.rating ? "star filled" : "star"
+                              }
+                            >
+                              &#9733;
+                            </span>
+                          ))}
+                        </div>
+                      }
                     </p>
                     <p>
                       <strong>Username:</strong>{" "}
@@ -243,8 +382,13 @@ const Product = () => {
                           <button
                             className="edit-product"
                             onClick={(e) => {
-                              // e.stopPropagation();
-                              // navigator(`/edit-product-admin/${product?.id}`);
+                              setIsEditReview(true);
+                              setEditReviewId(review?.id);
+                              setProductId(product?.id);
+                              setUpdatedReviewPayload({
+                                comment: review?.comment,
+                                rating: review?.rating,
+                              });
                             }}
                           >
                             Edit Review
@@ -253,7 +397,9 @@ const Product = () => {
                           <button
                             className=" delete-product"
                             onClick={(e) => {
-                              isEditReview(true);
+                              setIsDeleteReview(true);
+                              setDeleteReviewId(review?.id);
+                              setProductId(product?.id);
                             }}
                           >
                             Delete Review

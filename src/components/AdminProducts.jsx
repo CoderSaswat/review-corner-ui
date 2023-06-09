@@ -11,8 +11,9 @@ import "../css/products.css";
 import Product from "./Product";
 import { useNavigate } from "react-router-dom";
 
-const AdminProducts = () => {
-  const [products, setProducts] = useState([]);
+const AdminProducts = ({props}) => {
+  const {products,setProducts}= props;
+  // const [products, setProducts] = useState([]);
   const [isDeleteProduct, setIsDeleteProduct] = useState(false);
   const [deleteProductId, setDeleteProductId] = useState("");
 

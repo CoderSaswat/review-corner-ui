@@ -211,6 +211,29 @@ const AdminProduct = () => {
       >
         Delete Product
       </button>
+      <h2 className="product-heading">Additional Information</h2>
+      <div className="additional-info">
+        <div>
+          {product.additionalInfo &&
+            Object.entries(product.additionalInfo).map(([key, value]) => (
+              <>
+                <div className="p-key">
+                  <strong>{key}</strong>
+                </div>
+              </>
+            ))}
+        </div>
+        <div>
+          {product.additionalInfo &&
+            Object.entries(product.additionalInfo).map(([key, value]) => (
+              <>
+                <div className="p-value">
+                  <span>{value}</span>
+                </div>
+              </>
+            ))}
+        </div>
+      </div>
       <h2 className="product-heading">Prices from different Companies</h2>
       <div className="prices">
         {product?.prices?.map((price, index) => {

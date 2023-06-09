@@ -42,6 +42,7 @@ const EditProduct = () => {
   const refreshProduct = () => {
     getOneProduct(id)
       .then((res) => {
+        setAdditionalInfo(res.additionalInfo);
         setData(res);
         setPrices(res?.prices);
       })
@@ -97,7 +98,7 @@ const EditProduct = () => {
 
   const handleRemovePrice = (index) => {
     // alert(index);
-    console.log(index)
+    console.log(index);
     const newPrices = [...prices];
     // console.log(newPrices)
     newPrices.splice(index, 1);
@@ -120,8 +121,106 @@ const EditProduct = () => {
     ]);
   };
 
+  // additonalInfo4
+  const [isAddAdditionalInfo, setIsAddAdditionalInfo] = useState(false);
+  const [additionalInfo, setAdditionalInfo] = useState({});
+  const [currentKey, setCurrentKey] = useState("");
+  const [currentValue, setCurrentValue] = useState("");
+  const [productDetalsData, setProductDetailsData] = useState({});
+
+  const handleAddAdditionalProduct = () => {
+    setIsAddAdditionalInfo(true);
+  };
+
+  const handlePropertyNameInputChange = (e) => {
+    setProductDetailsData({
+      ...productDetalsData,
+      [e.target.name]: e.target.value,
+    });
+    setCurrentKey(e.target.value);
+  };
+
+  const handlePropertyValueInputChange = (e) => {
+    setProductDetailsData({
+      ...productDetalsData,
+      [e.target.name]: e.target.value,
+    });
+    setCurrentValue(e.target.value);
+  };
+
+  const handleAddAdditionalInfoNameAndPropertyPair = () => {
+    if (currentKey && currentValue) {
+      setAdditionalInfo({ ...additionalInfo, [currentKey]: currentValue });
+    }
+    setCurrentKey("");
+    setCurrentValue("");
+    setIsAddAdditionalInfo(false);
+    setProductDetailsData({});
+    // const copyObject = {...additionalInfo}
+    setData({ ...data, ["additionalInfo"]: additionalInfo });
+  };
+
+  const handleEditAdditionalInfoProperyValue = (key, value) => {
+    setAdditionalInfo({ ...additionalInfo, [key]: value });
+  };
+
+  const handleEditAdditionalInfoProperyName = (key, value) => {};
+
+  const removeOneAdditionalProductDetails = (key) => {
+    const updatedAdditionalInfo = { ...additionalInfo };
+    delete updatedAdditionalInfo[key];
+    setAdditionalInfo(updatedAdditionalInfo);
+    setData({...data,["additionalInfo"]:updatedAdditionalInfo});
+  };
+
   return (
     <>
+      {isAddAdditionalInfo ? (
+        <>
+          <div className="delete-confirm">
+            <textarea
+              className="sign-up-input-field property-name-input"
+              name="key"
+              id=""
+              cols="30"
+              rows="2"
+              placeholder="add Property name"
+              value={productDetalsData?.key}
+              onChange={handlePropertyNameInputChange}
+            ></textarea>
+            <textarea
+              className="sign-up-input-field property-value-input"
+              name="value"
+              id=""
+              cols="30"
+              rows="2"
+              placeholder="add property value"
+              value={productDetalsData?.value}
+              onChange={handlePropertyValueInputChange}
+            ></textarea>
+            <div>
+              <button
+                onClick={handleAddAdditionalInfoNameAndPropertyPair}
+                className="confirm-yes"
+              >
+                Add
+              </button>
+              <button
+                onClick={() => {
+                  setIsAddAdditionalInfo(false);
+                  setCurrentKey("");
+                  setCurrentValue("");
+                }}
+                className="confirm-no"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
       <div className="sign-up">
         <form
           onSubmit={(e) => {
@@ -172,7 +271,7 @@ const EditProduct = () => {
                 <img
                   src={data?.productPhotoUrl}
                   alt=""
-                  style={{ "width": "10vw" ,"marginBottom":"15px"}}
+                  style={{ width: "10vw", marginBottom: "15px" }}
                 />
               </>
             )}
@@ -185,6 +284,42 @@ const EditProduct = () => {
             />
           </div>
           <br />
+                    {/* additionalInfo4 */}
+
+                    <div>
+            {Object.entries(additionalInfo).map(([key, value]) => (
+              <div key={key}>
+                <input
+                  type="text"
+                  className="sign-up-input-field"
+                  value={key}
+                  // onChange={(e) => handleChange(key,e.target.value)}
+                  readonly
+                />
+                <br />
+                <input
+                  type="text"
+                  className="sign-up-input-field"
+                  value={value}
+                  // onChange={(e) =>
+                  //   handleInputChange(key, e.target.value)
+                  // }
+                />
+                <button onClick={() => removeOneAdditionalProductDetails(key)}>
+                  Remove
+                </button>
+                <br />
+                <br />
+              </div>
+            ))}
+          </div>
+          <br />
+          <button
+            className="add-price add-additional-info-button"
+            onClick={handleAddAdditionalProduct}
+          >
+            Add additional Information
+          </button>
           <div className="sign-up-item">
             {prices.map((price, index) => {
               return (
@@ -197,7 +332,10 @@ const EditProduct = () => {
                     }
                     // onRemove={handleRemovePrice(index)}
                   />
-                  <button className="remove-price" onClick={()=>handleRemovePrice(index)}>
+                  <button
+                    className="remove-price"
+                    onClick={() => handleRemovePrice(index)}
+                  >
                     Remove
                   </button>
                 </>

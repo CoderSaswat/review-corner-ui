@@ -227,3 +227,12 @@ export const updateReview = async (productId,reviewId,data) => {
     return await Promise.reject(error);
   }
 };
+
+export const getAllProductsByOptionalFiltering = async (stringified) => {
+  try {
+    const response = await axios.get(`${API_URL}/products?${stringified}`);
+    return await Promise.resolve(response.data);
+  } catch (error) {
+    return await Promise.reject(error);
+  }
+};

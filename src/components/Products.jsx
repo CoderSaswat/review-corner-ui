@@ -6,9 +6,19 @@ import Product from "./Product";
 import { useNavigate } from "react-router-dom";
 import { getUsersMe } from "../services/userService";
 
-const Products = () => {
+const Products = ({props}) => {
+  const {products,setProducts}= props;
   const [categories, setCategories] = useState([]);
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
+
+const [currentPage, setCurrentPage] = useState(1);
+const [sortField, setSortField] = useState("");
+const [sortOrder, setSortOrder] = useState("");
+const [data,setData]= useState({
+  
+});
+// const [products, setProducts] = useState([]);
+const [totalProducts, setTotalProducts] = useState(0);
 
   const navigator = useNavigate();
 
@@ -83,7 +93,7 @@ const Products = () => {
                   <p>
                     <strong>Average Rating:</strong> {product?.averageRating}
                   </p>
-                  <p className="product-properties-font">
+                  <p className="">
                     <strong>Starts from: Rs.</strong> {product?.minimumPrice}/-
                   </p>
                   <p>

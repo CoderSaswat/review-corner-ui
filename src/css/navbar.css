@@ -32,3 +32,31 @@
 .moderator-button{
     width: 120px;
 }
+.filter-button{
+    width: 40px;
+}
+.filter-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(29%, -99%);
+    background: #dfdfdf;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 3 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10000;
+    justify-content: center;
+    flex-direction: column;
+    width: 171px;
+    height: 200px;
+    font-size: 13px;
+}
+.filter-apply-btn{
+        margin-top: 20px;
+        width: 80px;
+        height: 20px;
+        border: 2px solid green;
+        color: white;
+        background-color: green;
+        border-radius: 3px;
+}

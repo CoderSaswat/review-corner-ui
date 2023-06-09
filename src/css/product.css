@@ -81,10 +81,11 @@
   }
   
   .star {
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: gray;
     cursor: pointer;
   }
+
   
   .star.filled {
     color: gold;
@@ -185,7 +186,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #fff;
+    background: #d7d7d7;
     padding: 20px;
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -196,11 +197,12 @@
     align-items: center;
     flex-direction: column;
     /* background-color: aqua; */
-    width: 500px;
+    width: 700px;
     height: 100px; 
+    /* margin-bottom: 120px; */
   }
   .confirm-yes{
-    
+    margin-top: 20px;
     width: 80px;
     height: 20px;
     border: 2px solid green;
@@ -234,4 +236,40 @@
   background-color: orange;
   border: 2px solid orange;
   color: black;
+}
+
+.additional-info{
+  margin-top: 10px;
+  font-size: 15px;
+  margin-left: 30px;
+  display: flex;
+  /* flex-direction: column; */
+/* background-color: aqua;  */
+}
+.p-key{
+  /* background-color: red; */
+  width: 200px;
+  margin-top: 10px;
+}
+.p-value{
+  /* background-color: aqua; */
+  margin-top: 10px;
+}
+.add-additonal-info{
+  width: 1600px;
+  background-color: aqua;
+}
+
+.property-name-input{
+  padding: 2px;
+  margin-top: 5px;
+  width: 500px;
+  height: 70px;
+}
+
+.property-value-input{
+  padding: 2px;
+  margin-top: 5px;
+  width: 500px;
+  height: 90px;
 }
