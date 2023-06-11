@@ -25,7 +25,14 @@ import EditProduct from "./components/EditProduct";
 const App = () => {
   const [isLoader, setIsLoader] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState({});
+  const [paramObject,setParamObject] = useState({
+    "pageNumber" : 0,
+    "pageSize" : 9,
+    "sortBy" : "updatedAt",
+    "direction" :"DESC"
+  })
+
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") != null) {
@@ -68,7 +75,7 @@ const App = () => {
     <>
       <BrowserRouter>
         <Navbar
-          props={{ currentUser, setCurrentUser, products, setProducts }}
+          props={{ currentUser, setCurrentUser, products, setProducts,paramObject,setParamObject }}
         />
         <ToastContainer position="bottom-left" autoClose={1000} closeOnClick />
         <ThreeCircles
@@ -102,7 +109,7 @@ const App = () => {
           <Route path="/change-password" element={<ChangePassword />} />
           <Route
             path="/all-products"
-            element={<Products props={{ products, setProducts }} />}
+            element={<Products props={{ products, setProducts, paramObject,setParamObject }} />}
           />
           <Route path="/one-product/:id" element={<Product />} />
           <Route
@@ -111,7 +118,7 @@ const App = () => {
           />
           <Route path="/" element={<Homescreen />} />
           <Route path="/moderator-products" element={<ModeratorProducts />} />
-          <Route path="/admin-products" element={<AdminProducts props={{ products, setProducts }}/>} />
+          <Route path="/admin-products" element={<AdminProducts/>} />
           <Route path="/one-product-admin/:id" element={<AdminProduct />} />
           <Route path="/add-product" element={<AddProduct />} />
           <Route path="/edit-product-admin/:id" element={<EditProduct />} />

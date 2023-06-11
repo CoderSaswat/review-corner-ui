@@ -167,7 +167,7 @@ const Product = () => {
       {/* dialog box for updating review */}
       {isEditReview ? (
         <>
-          <div className="delete-confirm add-additonal-info">
+          <div className="edit-review-end-user">
             <div className="stars">
               {[1, 2, 3, 4, 5].map((value, index) => (
                 <span
@@ -184,7 +184,7 @@ const Product = () => {
               ))}
             </div>
             <textarea
-              className="test-area"
+              className="property-name-input"
               name="comment"
               id=""
               cols="30"
@@ -195,7 +195,7 @@ const Product = () => {
             ></textarea>
             <div>
               <button onClick={handleReviewEditSubmit} className="confirm-yes">
-                Yes
+                Save
               </button>
               <button
                 onClick={() => {
@@ -206,7 +206,7 @@ const Product = () => {
                 }}
                 className="confirm-no"
               >
-                No
+                Cancel
               </button>
             </div>
           </div>

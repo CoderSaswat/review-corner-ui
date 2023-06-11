@@ -23,21 +23,14 @@ const AddProduct = () => {
     prices: [],
   });
   const [categories, setCategories] = useState([]);
-  // const [additionalInfo, setAdditionalInfo] = useState([
-  //   {
-  //     key: "",
-  //     value: "",
-  //   },
-  // ]);
 
-  //form data
-
-  //methods
-
-  // const handleChangeAdditionalInfo = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData({ ...formData, [name]: value });
-  // };
+  // additonalInfo
+  const [isAddAdditionalInfo, setIsAddAdditionalInfo] = useState(false);
+  const [additionalInfo, setAdditionalInfo] = useState({});
+  const [currentKey, setCurrentKey] = useState("");
+  const [currentValue, setCurrentValue] = useState("");
+  //used to store the current Object (current key-value pair)
+  const [productDetalsData, setProductDetailsData] = useState({});
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -54,15 +47,15 @@ const AddProduct = () => {
       });
   }, []);
 
-  const handleSubmit = () => { 
+  const handleSubmit = () => {
     addProductByAdmin(data)
-    .then((res) => {
-      toast.success("product successfully added");
-      navigator(`/one-product-admin/${res?.id}`);
-    })
-    .catch((err) => {
-      toast.error(err.response.data.message);
-    });
+      .then((res) => {
+        toast.success("product successfully added");
+        navigator(`/one-product-admin/${res?.id}`);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
     // console.log(data);
   };
   const handleDropDownChange = (e) => {
@@ -116,144 +109,6 @@ const AddProduct = () => {
     ]);
   };
 
-  // addtionalinfo0
-
-  // const [currentKey, setCurrentKey] = useState("");
-  // const [currentValue, setCurrentValue] = useState("");
-  // const [formData, setFormData] = useState({});
-  // const [additionalFields, setAdditionalFields] = useState([
-  //   {
-  //     key: "",
-  //     value: "",
-  //   },
-  // ]);
-
-  // const handleAddFieldAdditionalInfo = () => {
-  //   setFormData({
-  //     ...formData,
-  //     [currentKey]: currentValue,
-  //   });
-  //   setAdditionalFields([
-  //     ...additionalFields,
-  //     {
-  //       key: "",
-  //       value: "",
-  //     },
-  //   ]);
-  // };
-
-  // const handleChangeAdditionalInfoKey = (e, index) => {
-  //   const { name, value } = e.target;
-  //   setCurrentKey(value);
-  //   const newFileds = [...additionalFields];
-  //   newFileds[index] = { ...newFileds[index], [name]: value };
-  //   setAdditionalFields(newFileds);
-  //   setFormData({
-  //     ...formData,
-  //     [name]: "",
-  //   });
-  // };
-
-  // const handleChangeAdditionalInfoValue = (e, index) => {
-  //   const { name, value } = e.target;
-  //   setCurrentValue(value);
-  //   const newFileds = [...additionalFields];
-  //   newFileds[index] = { ...newFileds[index], [name]: value };
-  //   setAdditionalFields(newFileds);
-  //   setFormData({
-  //     ...formData,
-  //     [name]: value,
-  //   });
-  // };
-
-  const handleSubmitAdditionalInfo = async () => {
-    // alert("api call");
-    // additionalFields?.map((item,index)=>(
-    //   setFormData(...formData,{
-    //     [item.key]:item.value
-    //   })
-    // ))
-    // additionalFields.forEach((item, index) => {
-    //   // console.log(`Item at index ${index}: ${item}`);
-    //   setFormData(...formData, {
-    //     [item?.key]: item?.value,
-    //   });
-    // });
-  };
-
-  // {/* addtionalInfo2 */}
-
-  // const [productDetails, setProductDetails] = useState({});
-
-  // const handleInputChange = (key, value) => {
-  //   setProductDetails(prevState => ({
-  //     ...prevState,
-  //     [key]: value
-  //   }));
-  // };
-
-  // const removeDetail = key => {
-  //   setProductDetails(prevState => {
-  //     const updatedDetails = { ...prevState };
-  //     delete updatedDetails[key];
-  //     return updatedDetails;
-  //   });
-  // };
-
-  // const addDetail = () => {
-  //   const newKey = prompt('Enter the key');
-  //   const newValue = prompt('Enter the value');
-  //   if (newKey && newValue) {
-  //     setProductDetails(prevState => ({
-  //       ...prevState,
-  //       [newKey]: newValue
-  //     }));
-  //   }
-  // };
-
-  // {/* addtionalInfo3 */}
-
-  // const [productDetails, setProductDetails] = useState({});
-
-  // const handleInputChange = (key, value) => {
-  //   setProductDetails((prevState) => ({
-  //     ...prevState,
-  //     [key]: value,
-  //   }));
-  // };
-
-  // const removeDetail = (key) => {
-  //   setProductDetails((prevState) => {
-  //     const updatedDetails = { ...prevState };
-  //     delete updatedDetails[key];
-  //     return updatedDetails;
-  //   });
-  // };
-
-  // const addDetail = () => {
-  //   const newKey = prompt("Enter the key");
-  //   if (newKey) {
-  //     const newValue = prompt("Enter the value");
-  //     if (newValue) {
-  //       setProductDetails((prevState) => ({
-  //         ...prevState,
-  //         [newKey]: newValue,
-  //       }));
-
-  //       setData({...data,["additionalInfo"]:productDetails});
-  //     }
-  //   }
-  // };
-
-
-
-  // additonalInfo4
-  const [isAddAdditionalInfo, setIsAddAdditionalInfo] = useState(false);
-  const [additionalInfo, setAdditionalInfo] = useState({});
-  const [currentKey, setCurrentKey] = useState("");
-  const [currentValue, setCurrentValue] = useState("");
-  const [productDetalsData, setProductDetailsData] = useState({});
-
   const handleAddAdditionalProduct = () => {
     setIsAddAdditionalInfo(true);
   };
@@ -276,21 +131,20 @@ const AddProduct = () => {
 
   const handleAddAdditionalInfoNameAndPropertyPair = () => {
     if (currentKey && currentValue) {
-      setAdditionalInfo({ ...additionalInfo, [currentKey]: currentValue });
+      setAdditionalInfo((prevAdditionalInfo) => {
+        const updatedAdditionalInfo = {
+          ...prevAdditionalInfo,
+          [currentKey]: currentValue,
+        };
+        setCurrentKey("");
+        setCurrentValue("");
+        setIsAddAdditionalInfo(false);
+        setProductDetailsData({});
+        setData({ ...data, additionalInfo: updatedAdditionalInfo });
+        return updatedAdditionalInfo;
+      });
     }
-    setCurrentKey("");
-    setCurrentValue("");
-    setIsAddAdditionalInfo(false);
-    setProductDetailsData({});
-    // const copyObject = {...additionalInfo}
-    setData({...data,["additionalInfo"]:additionalInfo});
   };
-
-  const handleEditAdditionalInfoProperyValue = (key, value) => {
-    setAdditionalInfo({ ...additionalInfo, [key]: value });
-  };
-
-  const handleEditAdditionalInfoProperyName = (key, value) => {};
 
   const removeOneAdditionalProductDetails = (key) => {
     const updatedAdditionalInfo = { ...additionalInfo };
@@ -302,7 +156,7 @@ const AddProduct = () => {
     <>
       {isAddAdditionalInfo ? (
         <>
-          <div className="delete-confirm">
+          <div className=" additional-info-product">
             <textarea
               className="sign-up-input-field property-name-input"
               name="key"
@@ -353,6 +207,9 @@ const AddProduct = () => {
           }}
         >
           <div>
+            <p className="product-heading-add-edit-page">
+              Product Information:-
+            </p>
             <label for="categoryId">Choose a category: </label>
             <select
               name="categoryId"
@@ -404,123 +261,41 @@ const AddProduct = () => {
               onChange={handleFileChange}
             />
           </div>
-          {/* //additionalInfo1 */}
           <br />
-          {/* {
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-            >
-              {additionalFields?.map((field, index) => (
-                <div key={index}>
-                  <input
-                    type="text"
-                    name="key"
-                    value={field?.key}
-                    onChange={(e) => {
-                      handleChangeAdditionalInfoKey(e, index);
-                    }}
-                  />
-                  <br />
-                  <input
-                    type="text"
-                    name="value"
-                    value={field?.value}
-                    onChange={(e) => {
-                      handleChangeAdditionalInfoValue(e, index);
-                    }}
-                  />
-
-                  <br />
-                  <br />
-                </div>
-              ))}
-              <button type="button" onClick={handleAddFieldAdditionalInfo}>
-                Add More
-              </button>
-              <button type="button" onClick={handleSubmitAdditionalInfo}>
-                Submit
-              </button>
-            </form>
-          } */}
-          {/* addtionalInfo2 */}
-          {/* {
-                <div>
-                {Object.entries(productDetails).map(([key, value]) => (
-                  <div key={key}>
-                    <input
-                      type="text"
-                      value={key}
-                      onChange={e => handleInputChange(e.target.value, key)}
-                    />
-                    <br />
-                    <input
-                      type="text"
-                      value={value}
-                      onChange={e => handleInputChange(key, e.target.value)}
-                    />
-                    <button onClick={() => removeDetail(key)}>Remove</button>
-                    <br /><br />
-                  </div>
-                  
-                ))}
-                <button onClick={addDetail}>Add more details</button>
-              </div>
-          } */}
-
-          {/* addtionalInfo3 */}
-          {/* <div>
-            {Object.entries(productDetails).map(([key, value]) => (
-              <div key={key}>
-                <input
-                  type="text"
-                  value={key}
-                  onChange={(e) => handleChange(key,e.target.value)}
-                  readonly
-                />
-                <br />
-                <input
-                  type="text"
-                  value={value}
-                  onChange={(e) =>
-                    handleInputChange(key, e.target.value)
-                  }
-                />
-                <button onClick={() => removeDetail(key)}>
-                  Remove
-                </button>
-                <br />
-                <br />
-              </div>
-            ))}
-            <button onClick={addDetail}>Add more details</button>
-          </div> */}
-
-          {/* additionalInfo4 */}
-
           <div>
+            <p className="product-heading-add-edit-page">
+              Additional Information:-
+            </p>
             {Object.entries(additionalInfo).map(([key, value]) => (
               <div key={key}>
+                <label htmlFor="key">property name</label>
+                <br />
                 <input
                   type="text"
                   value={key}
-                  className="sign-up-input-field"
+                  className="sign-up-input-field additional-info-key"
                   // onChange={(e) => handleChange(key,e.target.value)}
                   readonly
                 />
                 <br />
+                <label htmlFor="value">property value</label>
+                <br />
                 <input
                   type="text"
                   value={value}
-                  className="sign-up-input-field"
+                  className="sign-up-input-field additional-info-value"
                   // onChange={(e) =>
                   //   handleInputChange(key, e.target.value)
                   // }
                 />
-                <button onClick={() => removeOneAdditionalProductDetails(key)}>
+                <br />
+                <button
+                  className="remove-price"
+                  onClick={() => removeOneAdditionalProductDetails(key)}
+                >
                   Remove
                 </button>
+                {/* <p>---------------------------------------------------------</p> */}
                 <br />
                 <br />
               </div>
@@ -534,26 +309,33 @@ const AddProduct = () => {
             Add additional Information
           </button>
           <div className="sign-up-item">
-            {prices.map((price, index) => {
-              return (
-                <>
+            <p className="product-heading-add-edit-page">
+              Prices Form Different Companies:-
+            </p>
+              {prices.map((price, index) => {
+                return (
+                  <>
+                  <div className="price-item">
                   <ProductPrice
-                    key={index}
-                    price={price}
-                    onChange={(name, value) =>
-                      handlePriceChange(index, name, value)
-                    }
-                    // onClick={() => handleRemovePrice(index)}
-                  />
-                  <button
-                    className="remove-price"
+                      key={index}
+                      price={price}
+                      onChange={(name, value) =>
+                        handlePriceChange(index, name, value)
+                      }
+                      onRemove={() => handleRemovePrice(index)}
+                    />
+                  </div>
+
+                    {/* <button
+                    className="remove-price price-rmv"
                     onClick={() => handleRemovePrice(index)}
                   >
                     Remove
-                  </button>
-                </>
-              );
-            })}
+                  </button> */}
+                    {/* <p>---------------------------------------------------------</p> */}
+                  </>
+                );
+              })}
           </div>
           <div className="sign-up-item ">
             <button

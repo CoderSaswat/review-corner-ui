@@ -150,14 +150,19 @@ const EditProduct = () => {
 
   const handleAddAdditionalInfoNameAndPropertyPair = () => {
     if (currentKey && currentValue) {
-      setAdditionalInfo({ ...additionalInfo, [currentKey]: currentValue });
+      setAdditionalInfo((prevAdditionalInfo) => {
+        const updatedAdditionalInfo = {
+          ...prevAdditionalInfo,
+          [currentKey]: currentValue,
+        };
+        setCurrentKey("");
+        setCurrentValue("");
+        setIsAddAdditionalInfo(false);
+        setProductDetailsData({});
+        setData({ ...data, additionalInfo: updatedAdditionalInfo });
+        return updatedAdditionalInfo;
+      });
     }
-    setCurrentKey("");
-    setCurrentValue("");
-    setIsAddAdditionalInfo(false);
-    setProductDetailsData({});
-    // const copyObject = {...additionalInfo}
-    setData({ ...data, ["additionalInfo"]: additionalInfo });
   };
 
   const handleEditAdditionalInfoProperyValue = (key, value) => {
@@ -170,7 +175,7 @@ const EditProduct = () => {
     const updatedAdditionalInfo = { ...additionalInfo };
     delete updatedAdditionalInfo[key];
     setAdditionalInfo(updatedAdditionalInfo);
-    setData({...data,["additionalInfo"]:updatedAdditionalInfo});
+    setData({ ...data, ["additionalInfo"]: updatedAdditionalInfo });
   };
 
   return (
@@ -228,6 +233,7 @@ const EditProduct = () => {
           }}
         >
           <div>
+          <p className="product-heading-add-edit-page">Product Information:-</p>
             <label for="categoryId">Choose a category: </label>
             <select
               name="categoryId"
@@ -284,28 +290,37 @@ const EditProduct = () => {
             />
           </div>
           <br />
-                    {/* additionalInfo4 */}
+          {/* additionalInfo4 */}
 
-                    <div>
+          <div>
+          <p className="product-heading-add-edit-page">Additional Information:-</p>
             {Object.entries(additionalInfo).map(([key, value]) => (
               <div key={key}>
+                                <label htmlFor="key">Property Name</label>
+                <br />
                 <input
                   type="text"
-                  className="sign-up-input-field"
+                  className="sign-up-input-field additional-info-key"
                   value={key}
                   // onChange={(e) => handleChange(key,e.target.value)}
                   readonly
                 />
+                <br/>
+                <label htmlFor="value" className="property-value">Property Value</label>
                 <br />
                 <input
                   type="text"
-                  className="sign-up-input-field"
+                  className="sign-up-input-field additional-info-value"
                   value={value}
                   // onChange={(e) =>
                   //   handleInputChange(key, e.target.value)
                   // }
                 />
-                <button onClick={() => removeOneAdditionalProductDetails(key)}>
+                <br />
+                <button
+                  className="remove-price"
+                  onClick={() => removeOneAdditionalProductDetails(key)}
+                >
                   Remove
                 </button>
                 <br />
@@ -320,24 +335,27 @@ const EditProduct = () => {
           >
             Add additional Information
           </button>
-          <div className="sign-up-item">
+          <div className="sign-up-item ">
+          <p className="product-heading-add-edit-page">Prices Form Different Companies:-</p>
             {prices.map((price, index) => {
               return (
                 <>
+                  <div className="price-item">
                   <ProductPrice
-                    key={index}
-                    price={price}
-                    onChange={(name, value) =>
-                      handlePriceChange(index, name, value)
-                    }
-                    // onRemove={handleRemovePrice(index)}
-                  />
-                  <button
-                    className="remove-price"
-                    onClick={() => handleRemovePrice(index)}
-                  >
-                    Remove
-                  </button>
+                      key={index}
+                      price={price}
+                      onChange={(name, value) =>
+                        handlePriceChange(index, name, value)
+                      }
+                      onRemove={() => handleRemovePrice(index)}
+                    />
+                  </div>
+                    {/* <button
+                      className="remove-price price-rmv"
+                      onClick={() => handleRemovePrice(index)}
+                    >
+                      Remove
+                    </button> */}
                 </>
               );
             })}

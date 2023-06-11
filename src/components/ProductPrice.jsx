@@ -3,7 +3,7 @@ import "../css/signUp.css";
 import { toast } from "react-toastify";
 import { getCategories, uploadFile } from "../services/productService";
 
-const ProductPrice = ({ price, onChange, onRemove }) => {
+const ProductPrice = ({ key,price, onChange, onRemove }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "price") {
@@ -13,8 +13,9 @@ const ProductPrice = ({ price, onChange, onRemove }) => {
     }
   };
 
-  const handleRemove = () => {
-    onRemove();
+  const handleRemove = (e) => {
+    e.preventDefault();
+    onRemove(key);
   };
 
   const handleFileChange = (e) => {
@@ -40,7 +41,7 @@ const ProductPrice = ({ price, onChange, onRemove }) => {
 
   return (
     <>
-      <div className="">
+      <div className="product-price">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -70,10 +71,14 @@ const ProductPrice = ({ price, onChange, onRemove }) => {
           <div className="sign-up-item">
             <label htmlFor="name">Company Logo</label>
             {price?.companyLogoUrl && (
-            <>
-                <img src={price?.companyLogoUrl} alt="" style={{"width":"5vw", "marginTop":"5px"}}/>
-            </>
-          )}
+              <>
+                <img
+                  src={price?.companyLogoUrl}
+                  alt=""
+                  style={{ width: "5vw", marginTop: "5px" }}
+                />
+              </>
+            )}
             <div className="sign-up-item">
               <input
                 type="file"
@@ -93,11 +98,10 @@ const ProductPrice = ({ price, onChange, onRemove }) => {
               onChange={handleChange}
             />
           </div>
-          {/* <button className="remove-price" onClick={() => onRemove()}>
+          <button className="remove-price" onClick={(e)=>handleRemove(e)}>
             Remove
-          </button> */}
+          </button>
           <br />
-          <hr style={{ marginTop: "15px" }} />
         </form>
       </div>
     </>

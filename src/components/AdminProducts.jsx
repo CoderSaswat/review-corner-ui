@@ -11,9 +11,9 @@ import "../css/products.css";
 import Product from "./Product";
 import { useNavigate } from "react-router-dom";
 
-const AdminProducts = ({props}) => {
-  const {products,setProducts}= props;
-  // const [products, setProducts] = useState([]);
+const AdminProducts = ({ props }) => {
+  // const { products, setProducts } = props;
+  const [products, setProducts] = useState([]);
   const [isDeleteProduct, setIsDeleteProduct] = useState(false);
   const [deleteProductId, setDeleteProductId] = useState("");
 
@@ -34,15 +34,17 @@ const AdminProducts = ({props}) => {
       });
   };
 
-  const handleConfirmDelete = () =>{
-    deleteProduct(deleteProductId).then((res)=>{
-      refreshProducts();
-      setIsDeleteProduct(false);
-      toast.success("product successfully deleted")
-    }).catch((err)=>{
-      toast.error("failed to delete")
-    })
-  }
+  const handleConfirmDelete = () => {
+    deleteProduct(deleteProductId)
+      .then((res) => {
+        refreshProducts();
+        setIsDeleteProduct(false);
+        toast.success("product successfully deleted");
+      })
+      .catch((err) => {
+        toast.error("failed to delete");
+      });
+  };
 
   return (
     <>
@@ -51,10 +53,17 @@ const AdminProducts = ({props}) => {
           <div className="delete-confirm">
             <h3>Are you sure you want to delete</h3>
             <div>
-              <button onClick={handleConfirmDelete} className="confirm-yes">Yes</button>
-              <button onClick={()=>{
-                setIsDeleteProduct(false);
-              }} className="confirm-no">No</button>
+              <button onClick={handleConfirmDelete} className="confirm-yes">
+                Yes
+              </button>
+              <button
+                onClick={() => {
+                  setIsDeleteProduct(false);
+                }}
+                className="confirm-no"
+              >
+                No
+              </button>
             </div>
           </div>
         </>
@@ -62,6 +71,7 @@ const AdminProducts = ({props}) => {
         <></>
       )}
       <div className="products">
+        {/* {console.log(products)} */}
         {products?.map((product, index) => {
           return (
             <>

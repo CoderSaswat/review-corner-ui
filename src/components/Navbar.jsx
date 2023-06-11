@@ -10,7 +10,7 @@ import {
 import queryString from "query-string";
 
 export default function Navbar({ props }) {
-  const { currentUser, setCurrentUser, products, setProducts } = props;
+  const { currentUser, setCurrentUser, products, setProducts, paramObject,setParamObject } = props;
   const [isfilterClicked, setIsfilterClicked] = useState(false);
   const [categories, setCategories] = useState([]);
   const [data, setData] = useState({});
@@ -33,14 +33,14 @@ export default function Navbar({ props }) {
   }, []);
 
   const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    setParamObject({ ...paramObject, [e.target.name]: e.target.value });
   };
 
   const handleApplyfilter = () => {
-    const stringified = queryString.stringify(data);
+    const stringified = queryString.stringify(paramObject);
     getAllProductsByOptionalFiltering(stringified)
       .then((res) => {
-        setProducts(res?.result);
+        setProducts(res);
         console.log(products);
         setIsfilterClicked(!isfilterClicked);
         toast.success("data filtered success");
@@ -144,9 +144,14 @@ export default function Navbar({ props }) {
     const stringified = queryString.stringify({});
     getAllProductsByOptionalFiltering(stringified)
       .then((res) => {
-        setProducts(res?.result);
+        setProducts(res);
         // console.log(res?.result);
-        setData({});
+        setParamObject({
+          "pageNumber" : "0",
+          "pageSize" : "9",
+          "sortBy" : "createdAt",
+          "direction" :"ASC"
+        });
         setIsfilterClicked(!isfilterClicked);
         toast.success("filter clear success");
       })
@@ -157,7 +162,7 @@ export default function Navbar({ props }) {
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
-    setData({ ...data, [e.target.name]: e.target.value });
+    setIsfilterClicked({ ...paramObject, [e.target.name]: e.target.value });
   };
 
   // const handleSearchOnChange =(e) => {
@@ -173,18 +178,34 @@ export default function Navbar({ props }) {
   //   });
   // }
 
-  const handleSearchOnChange = (e)  => {
-    //state update prblem
-    // setData({ ...data, ["searchInput"]: e.target.value });
-    // const stringified = queryString.stringify(data);
-     getAllProductsByOptionalFiltering(`searchInput=${e.target.value}`)
-      .then((res) => {
-        setProducts(res?.result);
-      })
-      .catch((err) => {
-        toast.error("search failed");
+  // const handleSearchOnChange = (e)  => {
+  //   //state update prblem
+  //   setParamObject({ ...paramObject, ["searchInput"]: e.target.value });
+  //   const stringified = queryString.stringify(paramObject);
+  //   //  getAllProductsByOptionalFiltering(`searchInput=${e.target.value}`)
+  //   getAllProductsByOptionalFiltering(stringified)
+  //     .then((res) => {
+  //       setProducts(res);
+  //     })
+  //     .catch((err) => {
+  //       toast.error("search failed");
+  //     });
+  //   }
+
+    const handleSearchOnChange = (e) => { 
+      setParamObject((prevParamObject) => {
+        const updatedParamObject = { ...prevParamObject, searchInput: e.target.value };
+        const stringified = queryString.stringify(updatedParamObject);
+        getAllProductsByOptionalFiltering(stringified)
+          .then((res) => {
+            setProducts(res);
+          })
+          .catch((err) => {
+            toast.error("Search failed");
+          });
+        return updatedParamObject;
       });
-    }
+    };
 
   
   return (
@@ -196,28 +217,28 @@ export default function Navbar({ props }) {
             <input
               type="number"
               name="minPrice"
-              value={data?.minPrice}
+              value={paramObject?.minPrice}
               onChange={handleChange}
             />
             <label htmlFor="maxPrice">Maximun Price</label>
             <input
               type="number"
               name="maxPrice"
-              value={data?.maxPrice}
+              value={paramObject?.maxPrice}
               onChange={handleChange}
             />
             <label htmlFor="minRating">Minimum Rating</label>
             <input
               type="number"
               name="minRating"
-              value={data?.minRating}
+              value={paramObject?.minRating}
               onChange={handleChange}
             />
             <label htmlFor="maxRating">Maximun Rating</label>
             <input
               type="number"
               name="maxRating"
-              value={data?.maxRating}
+              value={paramObject?.maxRating}
               onChange={handleChange}
             />
             <label htmlFor="categoryId">Category: </label>
@@ -289,8 +310,7 @@ export default function Navbar({ props }) {
         ) : (
           <>
             <div className="login-signup">
-              {(location.pathname === "/all-products" ||
-                location.pathname === "/admin-products") && (
+              {(location.pathname === "/all-products") && (
                 <button
                   className="filter-button"
                   onClick={() => {
@@ -300,8 +320,7 @@ export default function Navbar({ props }) {
                   Filter
                 </button>
               )}
-              {(location.pathname === "/all-products" ||
-                location.pathname === "/admin-products") && (
+              {(location.pathname === "/all-products") && (
                 <input
                   type="text"
                   placeholder="Search"

@@ -63,3 +63,46 @@
     color: red;
 } */
 
+.products-footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    /* background-color: aqua; */
+    gap: 5px;
+    margin-bottom: 10px;
+    
+}
+
+.products-footer-btn{
+    width: 80px;
+    height: 30px;
+    border: 2px solid green;
+    background-color: green;
+    border-radius: 5px;  
+    color: aliceblue;  
+}
+
+.products-footer-btn:hover{
+    cursor: pointer;
+}
+
+.products-footer-btn-cursor-block{
+    width: 80px;
+    height: 30px;
+    border: 2px solid green;
+    background-color: green;
+    border-radius: 5px;  
+    color: aliceblue; 
+}
+
+.products-footer-btn-disable{
+    cursor: not-allowed !important;
+    /* pointer-events: none; */
+    width: 80px;
+    height: 30px;
+    border: 2px solid green;
+    background-color: green;
+    border-radius: 5px;  
+    color: aliceblue;  
+}

@@ -41,8 +41,8 @@ const ModeratorProducts = () => {
                                 <p style={{fontSize:"20px",marginBottom:"5px"}}>{product?.name}</p>
                                 <p><strong>Average Rating:</strong> {product?.averageRating}</p>
                                 <p><strong>Starts from: Rs.</strong> {product?.minimumPrice}/-</p>
-                                <p><strong>Pending Reviews: </strong> {product?.pendingReviews}</p>
-                                <p><strong>Pending Questions: </strong> {product?.pendingQuestions}</p>
+                                <p style={{"color":"red"}}><strong>Pending Reviews: </strong> <span style={{"color":"red"}}>{product?.pendingReviews}</span> </p>
+                                <p style={{"color":"red"}}><strong>Pending Questions: </strong> <span style={{"color":"red"}}>{product?.pendingQuestions}</span> </p>
                                 {/* <p><strong>Description: </strong>{product?.description.substring(0, 50) + "..."}</p> */}
                             </div>
                         </div>
