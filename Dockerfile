@@ -1,5 +1,5 @@
 # Use an official Node runtime as a base image
-FROM node:20-alpine
+FROM node:16-alpine
 
 # Set the working directory to /app
 WORKDIR /app
