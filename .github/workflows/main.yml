@@ -16,7 +16,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Replace '14' with '20' to use Node.js version 20
+          node-version: '16'
+
+      - name: Print Node.js version
+        run: node --version
+
+      - name: Clear npm cache
+        run: npm cache clean -f
 
       - name: Install dependencies
         run: npm install
